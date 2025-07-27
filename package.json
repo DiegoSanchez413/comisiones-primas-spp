@@ -1,0 +1,11 @@
+{
+    "name": "comisiones-primas-spp",
+    "version": "1.0.0",
+    "scripts": {
+      "scrape": "node scraper.js"
+    },
+    "dependencies": {
+      "puppeteer": "^21.3.8"
+    }
+  }
+  
