@@ -1,27 +1,40 @@
-name: Run Puppeteer Scraper
+name: Scrape AFP
 
 on:
   schedule:
-    - cron: '*/1 * * * *'  # Cada minuto para pruebas
-  workflow_dispatch:       # Permite ejecutarlo manualmente
+    - cron: '0 12 * * *' # todos los días a las 12:00 UTC
+  workflow_dispatch:
 
 jobs:
-  run-scraper:
+  scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Clonar repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Instalar Node
+        uses: actions/setup-node@v4
         with:
           node-version: '16.20.2'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Instalar dependencias
+        run: npm install
 
-      - name: Run scraper script
-        run: npm run scrape
+      - name: Ejecutar scraper
+        run: node scraper.js
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Hacer commit y push si hay cambios
+        run: |
+          git add data/
+          git diff --cached --quiet || git commit -m "📦 Datos actualizados automáticamente"
+          git push
         env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'false'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
