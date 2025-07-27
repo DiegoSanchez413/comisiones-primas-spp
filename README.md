@@ -1,2 +1,13 @@
 # comisiones-primas-spp
+
 Web scraping automatizado de comisiones y primas del SPP (SBS Perú). Los datos se actualizan por periodo y se almacenan en formato JSON para su uso en otras aplicaciones. Automatizado con GitHub Actions, sin necesidad de servidor externo.
+
+## 🔗 Cómo consultar los datos
+
+Puedes acceder directamente a los datos en formato JSON usando la siguiente URL:
+
+https://raw.githubusercontent.com/DiegoSanchez413/comisiones-primas-spp/main/data/2025-07.json
+
+Solo necesitas cambiar el periodo (`2025-07`) por el año y mes deseado en formato `YYYY-MM`.
+
+> ⚠️ **Nota**: Los datos están disponibles a partir de **julio 2025** (`2025-07`). Periodos anteriores no están soportados.
