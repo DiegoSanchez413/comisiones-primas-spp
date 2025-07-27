@@ -5,8 +5,10 @@ const fs = require('fs');
     const browser = await puppeteer.launch({
         headless: 'new',
         slowMo: 50,
-        defaultViewport: null
+        defaultViewport: null,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+    
 
     const page = await browser.newPage();
     await page.goto('https://www.sbs.gob.pe/app/spp/empleadores/comisiones_spp/paginas/comision_prima.aspx', {
