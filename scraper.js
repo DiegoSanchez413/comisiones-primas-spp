@@ -1,40 +1,51 @@
-// scraper.js
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const path = require('path');
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: 'new' });
-  const page = await browser.newPage();
-  await page.goto('https://www.sbs.gob.pe/app/spp/empleadores/comision_prima.asp', {
-    waitUntil: 'domcontentloaded'
-  });
-
-  const data = await page.evaluate(() => {
-    const rows = Array.from(document.querySelectorAll('#tcomi tbody tr'));
-    return rows.map(row => {
-      const cells = row.querySelectorAll('td');
-      return {
-        afp: cells[0]?.innerText.trim(),
-        tipoComision: cells[1]?.innerText.trim(),
-        comisionFlujo: cells[2]?.innerText.trim(),
-        comisionMixta: cells[3]?.innerText.trim(),
-        prima: cells[4]?.innerText.trim(),
-        aporte: cells[5]?.innerText.trim(),
-        seguro: cells[6]?.innerText.trim(),
-        total: cells[7]?.innerText.trim()
-      };
+    const browser = await puppeteer.launch({
+        headless: 'new',
+        slowMo: 50,
+        defaultViewport: null
     });
-  });
 
-  const now = new Date();
-  const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-  const filename = `data/${yearMonth}.json`;
+    const page = await browser.newPage();
+    await page.goto('https://www.sbs.gob.pe/app/spp/empleadores/comisiones_spp/paginas/comision_prima.aspx', {
+        waitUntil: 'domcontentloaded'
+    });
 
-  fs.mkdirSync('data', { recursive: true });
-  fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+    await page.waitForSelector('#lblMes1');
 
-  console.log(`Saved ${filename}`);
+    const data = await page.evaluate(() => {
+        const mes = document.querySelector('#lblMes1')?.innerText.trim();
 
-  await browser.close();
+        const rows = Array.from(document.querySelectorAll('tr.JER_filaContenido'));
+
+        const result = rows.map(row => {
+            const cells = row.querySelectorAll('td');
+            return {
+                afp: cells[0]?.innerText.trim(),
+                comision_flujo: cells[1]?.innerText.trim(),
+                comision_saldo: cells[2]?.innerText.trim(),
+                prima_seguro: cells[3]?.innerText.trim(),
+                aporte_obligatorio: cells[4]?.innerText.trim(),
+                remuneracion_maxima: cells[5]?.innerText.trim(),
+            };
+        });
+
+        return {
+            periodo: mes,
+            datos: result
+        };
+    });
+
+    // Crear carpeta si no existe
+    if (!fs.existsSync('data')) {
+        fs.mkdirSync('data');
+    }
+
+    // Guardar en la carpeta data/
+    fs.writeFileSync(`data/${data.periodo}.json`, JSON.stringify(data, null, 2), 'utf-8');
+    console.log(`✅ Datos guardados en data/${data.periodo}.json`);
+
+    await browser.close();
 })();
