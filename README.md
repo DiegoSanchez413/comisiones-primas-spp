@@ -11,3 +11,8 @@ https://raw.githubusercontent.com/DiegoSanchez413/comisiones-primas-spp/main/dat
 Solo necesitas cambiar el periodo (`2025-07`) por el año y mes deseado en formato `YYYY-MM`.
 
 > ⚠️ **Nota**: Los datos están disponibles a partir de **julio 2025** (`2025-07`). Periodos anteriores no están soportados.
+
+🔄 Frecuencia de actualización
+Los datos se actualizan automáticamente todos los días a la 1:00 a.m. hora de Perú mediante un proceso de web scraping automatizado con GitHub Actions.
+
+Esto garantiza que siempre tengas acceso a la información más reciente publicada por la SBS.
