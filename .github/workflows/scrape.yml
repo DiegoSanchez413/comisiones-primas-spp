@@ -26,10 +26,14 @@ jobs:
       - name: Ejecutar scraper
         run: node scraper.js
 
-      - name: Configurar Git
+      - name: Push cambios
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "📦 Datos actualizados automáticamente" || echo "Sin cambios para commitear"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
+
 
       - name: Hacer commit y push si hay cambios
         run: |
