@@ -33,12 +33,3 @@ jobs:
           git add data/
           git commit -m "📦 Datos actualizados automáticamente" || echo "Sin cambios para commitear"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
-
-
-      - name: Hacer commit y push si hay cambios
-        run: |
-          git add data/
-          git diff --cached --quiet || git commit -m "📦 Datos actualizados automáticamente"
-          git push
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
