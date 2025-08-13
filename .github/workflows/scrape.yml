@@ -2,7 +2,7 @@ name: Scrape AFP
 
 on:
   schedule:
-    - cron: '0 6 * * *' # Ejecuta a la 1:00 a.m. hora de Perú
+    - cron: '0 10 1 * *' # 1er día de cada mes a las 5:00 a.m. hora Perú (10:00 UTC)
   workflow_dispatch:
 
 jobs:
