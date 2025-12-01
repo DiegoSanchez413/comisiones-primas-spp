@@ -7,8 +7,8 @@ const fs = require('fs');
     const periodo = process.argv[2]; // ej: "2025-09"
 
     const browser = await puppeteer.launch({
-        // headless: 'new',
-        headless: false,
+        headless: 'new',
+        // headless: false,
         slowMo: 50,
         defaultViewport: null,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
