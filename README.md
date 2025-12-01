@@ -16,3 +16,11 @@ Solo necesitas cambiar el periodo (`2025-07`) por el año y mes deseado en forma
 Los datos se actualizan automáticamente todos los días a la 1:00 a.m. hora de Perú mediante un proceso de web scraping automatizado con GitHub Actions.
 
 Esto garantiza que siempre tengas acceso a la información más reciente publicada por la SBS.
+
+## 🛠️ Ejemplo de uso manual
+
+Puedes ejecutar el scraper manualmente para una fecha específica (formato DD/MM/YYYY):
+
+npm run scrape 2025-10
+
+Si no proporcionas una fecha, el bot usará automáticamente la fecha del día actual.
